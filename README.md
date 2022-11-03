@@ -1,11 +1,15 @@
-# Getting Started with Create React App
+## Permacast Landing Page
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), pre-packaged with TailwindCSS.
+### Build & Run
 
-## How 2 install
+```console
+git pull https://github.com/Parallel-news/permacast-homepage.git
 
-`npm install`
+npm install && npm run build
 
-## `How 2 run`
+npm run start
 
-`npm run start`
+```
+
+## License
+This repository is licensed under the [MIT License](./LICENSE)
