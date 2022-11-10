@@ -2,9 +2,9 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, { useEffect, useState } from 'react';
 import { LinkIcon, HeartIcon, CubeTransparentIcon, RssIcon, CodeIcon, GiftIcon, LockClosedIcon, GlobeIcon, CashIcon } from '@heroicons/react/outline'
-import rssFeature from '../assets/rss-feature.png'
-import lockFeature from '../assets/lock-feature.png'
-import nftFeature from '../assets/nft-feature.png'
+import rssFeature from '../assets/rss-icon.png'
+import lockFeature from '../assets/lock-icon.png'
+import nftFeature from '../assets/nft-icon.png'
 
 const distributionFeatures = [
   {
@@ -119,8 +119,8 @@ export default function Features() {
 
           <div className="mt-10 -mx-4 relative lg:mt-0" aria-hidden="true">
             <img
-              className="relative mx-auto w-80"
-              width={490}
+              className="relative mx-auto w-60"
+              /*width={490}*/
               src={rssFeature}
               alt=""
             />
