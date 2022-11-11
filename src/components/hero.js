@@ -34,7 +34,7 @@ function Hero() {
 
         */}
 
-            <a target="_blank noopener noreferrer" href="https://app.permacast.dev" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-black bg-[#ffff00] hover:drop-shadow-xl focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
+            <a target="_blank noopener noreferrer" href="https://legacy.permacast.dev" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-black bg-[#ffff00] hover:drop-shadow-xl focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
               <span class="lg:text-xl">Launch app</span>
             </a>
 
