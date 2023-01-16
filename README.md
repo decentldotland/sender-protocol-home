@@ -3,7 +3,6 @@
 ### Build & Run
 
 ```console
-git pull https://github.com/Parallel-news/permacast-homepage.git
 
 npm install && npm run build
 
