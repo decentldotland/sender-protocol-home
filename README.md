@@ -1,4 +1,4 @@
-## Permacast Landing Page
+## Sender Protocol Landing Page
 
 ### Build & Run
 

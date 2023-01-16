@@ -9,20 +9,20 @@ const navigation = [
 
 export default function Navbar() {
   return (
-    <header className="bg-gray-800">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6" aria-label="Top">
+    <header className="bg-[#21275A]">
+      <nav className="max-w-7xl px-4 sm:px-6 lg:px-6" aria-label="Top">
         <div className="w-full py-1 flex justify-between">
           <div className="flex items-center">
             <a href="/">
               <img
-                className="h-5 m-2 mr-2 w-auto"
+                className="h-10 mt-4 mb-4 mr-2 w-auto"
                 src={Logo}
                 alt=""
               />
            
             </a>
             <span className="hidden sm:block">
-              <span className="text-white flex items-center font-black mr-6"><a href="/">permacast</a></span>
+              <span className="text-white flex ml-2 text-xl items-center font-bold mr-6"><a href="/">Sender Protocol</a></span>
             </span>
             <div className="ml-10 space-x-12">
               {navigation.map((link) => (

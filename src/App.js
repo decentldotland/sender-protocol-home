@@ -5,7 +5,8 @@ import {
 } from "react-router-dom";
 import Navbar from '../src/components/navbar'
 import Hero from '../src/components/hero'
-import Features from '../src/components/features'
+import FeaturesNew from '../src/components/features'
+import Logos from "./components/logos";
 import Footer from '../src/components/footer'
 
 function App() {
@@ -27,10 +28,11 @@ function App() {
               <div className="w-full">
                 <Hero />
               </div>
-              <Features />
+              <FeaturesNew />
+              <Logos />
               <Footer />
             </div>
-            
+
           } />
 
           <Route path="*" element={
@@ -41,7 +43,7 @@ function App() {
           } />
         </Routes>
       </Router>
-      
+
     </>
   );
 }

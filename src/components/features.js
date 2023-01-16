@@ -1,203 +1,56 @@
+import { LinkIcon, ChatAltIcon, BellIcon, UserIcon } from '@heroicons/react/outline'
 
-/* This example requires Tailwind CSS v2.0+ */
-import React, { useEffect, useState } from 'react';
-import { LinkIcon, HeartIcon, CubeTransparentIcon, RssIcon, CodeIcon, GiftIcon, LockClosedIcon, GlobeIcon, CashIcon } from '@heroicons/react/outline'
-import rssFeature from '../assets/rss-icon.png'
-import lockFeature from '../assets/lock-icon.png'
-import nftFeature from '../assets/nft-icon.png'
-
-const distributionFeatures = [
+const features = [
   {
-    id: 1,
-    name: 'RSS feeds',
+    name: 'Flexible, out-of-the-box notifications',
     description:
-      'permacast provides you your own RSS feed that works with Spotify and iTunes',
-    icon: RssIcon,
+      'Sender Protocol eliminates the need for dApps to build custom solutions for chat and notifications. Whatever the chain, just hook Sender into the right page or destination and set up the trigger conditions',
+    icon: BellIcon,
   },
   {
-    id: 2,
-    name: 'Built for interoperability',
+    name: 'Encrypted on-chain messaging',
     description:
-      'Your RSS feeds are made to conform with the expected standards for podcast clients',
-    icon: GlobeIcon,
-  }
-]
-const censorshipFeatures = [
+      'Use any one of a user\'s connected identities to encrypt and decrypt messages between dApps, protocols and chains.',
+    icon: ChatAltIcon,
+  },
   {
-    id: 1,
-    name: 'All data is stored on chain for at least 200 years',
+    name: 'Send the right message to the right user',
     description:
-      'permacast shows are smart contracts which store the references to media and metadata from Arweave - backed by a 200 year permanence guarantee',
+      'Likes and mentions on your web3 social dapp, sales on your NFT marketplace, or announcements to the whole userbase -- Ark Protocol links identity across chains to reach users where they are.',
+    icon: UserIcon,
+  },
+  {
+    name: 'Gasless, on-chain and real-time',
+    description:
+      'Sending and receiving notifications with Sender Protocol is executed for free with EXM, a gasless Arweave-based smart contract platform with the ability to store unlimited data on-chain.',
     icon: LinkIcon,
-  },
-  {
-    id: 2,
-    name: 'Loved by dissidents and content creators alike',
-    description:
-      'permacast is a safe haven for a number of shows oppressed by state actors',
-    icon: HeartIcon,
-  },
-]
-
-const nftFeatures = [
-  {
-    id: 1,
-    name: 'Automatically mint episodes as NFTs',
-    description:
-      'Integrated with Arweave - and soon Mintbase - permacast makes it easy to turn your show into an NFT collection',
-    icon: GiftIcon,
-  },
-  {
-    id: 2,
-    name: 'Use episode NFTs as fan tokens',
-    description:
-      'No need to mint an ERC20 to create a token-gated community',
-    icon: CashIcon,
-  },
-]
-
-export default function Features() {
-
-
-  const [stats, setAnsStats] = useState([]);
-
-  useEffect(() => {
-    let mounted = true;
-    getAnsStats()
-      .then(items => {
-        if (mounted) {
-          setAnsStats(items)
-        }
-      })
-    return () => mounted = false;
-  }, [])
-
-
-  function getAnsStats() {
-    return fetch('https://ans-stats.decent.land/stats')
-      .then(response => response.json())
   }
+]
 
-  //bg-gradient-to-b from-white to-yellow-300
-
+export default function FeaturesNew() {
   return (
-    <div className="py-2 bg-white overflow-hidden lg:py-24">
-      <div className="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-8 lg:max-w-7xl">
-
-        <div className="relative">
-          <h2 className="text-center text-3xl leading-8 font-extrabold tracking-tight text-black sm:text-4xl">
-            Quit your web2 host
-          </h2>
-          <p className="mt-4 max-w-3xl mx-auto text-center text-xl text-gray-600">
-            With no recurring hosting fees, you control your content
-          </p>
+    <div className="bg-white py-12 sm:py-32 lg:py-20">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="sm:text-center">
+          <h2 className="text-lg font-semibold leading-8 text-gray-500">More than notifications</h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Communicate with your dApp and protocol users</p>
         </div>
 
-        <div className="relative mt-12 lg:mt-24 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-          <div className="relative">
-            <h3 className="text-2xl font-extrabold text-black tracking-tight sm:text-3xl">
-              Integrates with any distribution platform
-            </h3>
-            <p className="mt-3 text-lg text-gray-600">
-              Generate an RSS feed you can use with Spotify, iTunes, Fountain, and pretty much everywhere else
-            </p>
-
-            <dl className="mt-10 space-y-10">
-              {distributionFeatures.map((item) => (
-                <div key={item.id} className="relative">
-                  <dt>
-                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-none text-gray-800">
-                      <item.icon className="h-6 w-6" aria-hidden="true" />
-                    </div>
-                    <p className="ml-16 text-lg leading-6 font-medium text-black">{item.name}</p>
-                  </dt>
-                  <dd className="mt-2 ml-16 text-base text-gray-600">{item.description}</dd>
+        <div className="mt-20 max-w-lg sm:mx-auto md:max-w-none">
+          <div className="grid grid-cols-1 gap-y-16 md:grid-cols-2 md:gap-x-12 md:gap-y-16">
+            {features.map((feature) => (
+              <div key={feature.name} className="relative flex flex-col gap-6 sm:flex-row md:flex-col lg:flex-row">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#21275A] text-white sm:shrink-0">
+                  <feature.icon className="h-8 w-8" aria-hidden="true" />
                 </div>
-              ))}
-            </dl>
-          </div>
-
-          <div className="mt-10 -mx-4 relative lg:mt-0" aria-hidden="true">
-            <img
-              className="relative mx-auto w-60"
-              /*width={490}*/
-              src={rssFeature}
-              alt=""
-            />
-          </div>
-        </div>
-
-
-        <div className="relative mt-12 sm:mt-16 lg:mt-24">
-          <div className="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:gap-8 lg:items-center">
-            <div className="lg:col-start-2">
-              <h3 className="text-2xl font-extrabold text-black tracking-tight sm:text-3xl">Censorship resistant</h3>
-              <p className="mt-3 text-lg text-gray-600">
-                We use Arweave to store your media files, which makes it impossible to be censored or deplaformed
-              </p>
-
-              <dl className="mt-10 space-y-10">
-                {censorshipFeatures.map((item) => (
-                  <div key={item.id} className="relative">
-                    <dt>
-                      <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-none text-gray-800">
-                        <item.icon className="h-6 w-6" aria-hidden="true" />
-                      </div>
-                      <p className="ml-16 text-lg leading-6 font-medium text-black">{item.name}</p>
-                    </dt>
-                    <dd className="mt-2 ml-16 text-base text-gray-800">{item.description}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-
-            <div className="mt-10 -mx-4 relative lg:mt-0 lg:col-start-1">
-
-              <img
-                className="relative mx-auto w-80"
-                width={490}
-                src={lockFeature}
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="relative mt-12 lg:mt-24 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-          <div className="relative">
-            <h3 className="text-2xl font-extrabold text-black tracking-tight sm:text-3xl">
-              Episodes are NFTs
-            </h3>
-            <p className="mt-3 text-lg text-gray-900">
-              Tokenize your show and give fans a way fund its development
-            </p>
-
-            <dl className="mt-10 space-y-10">
-              {nftFeatures.map((item) => (
-                <div key={item.id} className="relative">
-                  <dt>
-                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-none text-gray-800">
-                      <item.icon className="h-6 w-6" aria-hidden="true" />
-                    </div>
-                    <p className="ml-16 text-lg leading-6 font-medium text-black">{item.name}</p>
-                  </dt>
-                  <dd className="mt-2 ml-16 text-base text-gray-800">{item.description}</dd>
+                <div className="sm:min-w-0 sm:flex-1">
+                  <p className="text-lg font-semibold leading-8 text-gray-900">{feature.name}</p>
+                  <p className="mt-2 text-base leading-7 text-gray-600">{feature.description}</p>
                 </div>
-              ))}
-            </dl>
-          </div>
-
-          <div className="mt-10 -mx-4 relative lg:mt-0" aria-hidden="true">
-
-            <img
-              className="relative mx-auto w-80"
-              width={600}
-              src={nftFeature}
-              alt=""
-            />
+              </div>
+            ))}
           </div>
         </div>
-
       </div>
     </div>
   )
