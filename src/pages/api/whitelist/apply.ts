@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { devContractToken } from '../exmvars';
 import { EXM_WHITELIST_CONTRACT } from '@/constants';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -8,8 +7,9 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   try {
+    const token = process.env.EXM_TOKEN;
     const { arweave_address, caller, signature } = req.body;
-    const data = await axios.post(`https://api.exm.dev/api/transactions?token=${devContractToken}`, {
+    const data = await axios.post(`https://api.exm.dev/api/transactions?token=${token}`, {
       functionId: EXM_WHITELIST_CONTRACT,
       inputs: [{
         "input": JSON.stringify(
