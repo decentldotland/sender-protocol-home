@@ -2,8 +2,8 @@ import Head from 'next/head'
 
 import Hero from '@/components/hero'
 import FeaturesNew from '@/components/features'
-import Logos from '@/components/Logos'
-import Footer from '@/components/Footer'
+import Logos from '@/components/logos'
+import Footer from '@/components/footer'
 
 export default function Home() {
   return (
