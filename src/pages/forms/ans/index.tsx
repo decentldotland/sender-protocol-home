@@ -181,7 +181,7 @@ export default function Home() {
                   <div className="flex items-center">
                     <input 
                       placeholder={"Paste your Arweave address"}
-                      className="px-2 py-2 border-black border-2 rounded-xl text-black w-full mr-2"
+                      className="px-2 py-2 border-black border-2 rounded-xl text-black mr-2 w-64"
                       value={arweave_address}
                       onChange={(e) => setArweave_address(e.target.value)}
                     />
