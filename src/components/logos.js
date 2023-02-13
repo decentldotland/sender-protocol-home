@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function Logos() {
   return (
     <div>
@@ -8,34 +10,34 @@ function Logos() {
           </h2>
           <div className="mt-8 grid grid-cols-6 gap-1 xs:grid-cols-6 md:grid-cols-10 lg:grid-cols-6">
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <img className="h-12" src={`/arweave.png`} alt="Arweave" />
+              <Image className="h-12" src={`/arweave.png`} alt="Arweave" />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <img className="h-12" src={`/ethereum.png`} alt="Ethereum" />
+              <Image className="h-12" src={`/ethereum.png`} alt="Ethereum" />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <img
+              <Image
                 className="h-12"
                 src={`/solana.png`}
                 alt="Solana"
               />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <img
+              <Image
                 className="h-12"
                 src={`/polkadot.svg`}
                 alt="Polkadot"
               />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <img
+              <Image
                 className="h-12"
                 src={`/ton.png`}
                 alt="TON"
               />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <img
+              <Image
                 className="h-12"
                 src={`/stacks.png`}
                 alt="Workcation"

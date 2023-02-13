@@ -1,3 +1,6 @@
+import Image from "next/image"
+import Link from "next/link"
+
 /* This example requires Tailwind CSS v2.0+ */
 const navigation = [
   /*{ name: 'Blog', href: 'https://mirror.xyz/decentdotland.eth'},
@@ -11,16 +14,16 @@ export default function Navbar() {
       <nav className="max-w-7xl px-4 sm:px-6 lg:px-6" aria-label="Top">
         <div className="w-full py-1 flex justify-between">
           <div className="flex items-center">
-            <a href="/">
-              <img
+            <Link href="/">
+              <Image
                 className="h-10 mt-4 mb-4 mr-2 w-auto"
                 src={`/logo.png`}
                 alt=""
               />
            
-            </a>
+            </Link>
             <span className="hidden sm:block">
-              <span className="text-white flex ml-2 text-xl items-center font-bold mr-6"><a href="/">Sender Protocol</a></span>
+              <span className="text-white flex ml-2 text-xl items-center font-bold mr-6"><Link href="/">Sender Protocol</Link></span>
             </span>
             <div className="ml-10 space-x-12">
               {navigation.map((link) => (

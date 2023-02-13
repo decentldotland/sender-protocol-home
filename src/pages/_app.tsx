@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app'
 import { useEffect, useState } from 'react'
-import { RecoilRoot } from 'recoil'
+
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -33,9 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-        <RecoilRoot>
-          <Component {...pageProps} />
-        </RecoilRoot>
+        <Component {...pageProps} />
       </RainbowKitProvider>
     </WagmiConfig>
   )

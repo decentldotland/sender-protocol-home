@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const heroCopy = {
   title: "On-chain notifications for dApps",
   description: "Cross-chain, gasless, and easy to integrate"
@@ -37,7 +39,7 @@ function Hero() {
             </a>
             
           </div>
-          <img className='m-auto' alt="Sender Protocol hero" src={`/sender-line-2.svg`} />
+          <Image className='m-auto' alt="Sender Protocol hero" src={`/sender-line-2.svg`} />
         </div>
       
       </div>
