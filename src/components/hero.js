@@ -39,7 +39,7 @@ function Hero() {
             </a>
             
           </div>
-          <Image className='m-auto' alt="Sender Protocol hero" src={`/sender-line-2.svg`} />
+          <img className='m-auto' alt="Sender Protocol hero" src={`/sender-line-2.svg`} />
         </div>
       
       </div>

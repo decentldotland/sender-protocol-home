@@ -10,35 +10,39 @@ function Logos() {
           </h2>
           <div className="mt-8 grid grid-cols-6 gap-1 xs:grid-cols-6 md:grid-cols-10 lg:grid-cols-6">
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <Image className="h-12" src={`/arweave.png`} alt="Arweave" />
+              <Image width={48} height={48} src={`/arweave.png`} alt="Arweave" />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <Image className="h-12" src={`/ethereum.png`} alt="Ethereum" />
+              <Image width={48} height={48} src={`/ethereum.png`} alt="Ethereum" />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <Image
-                className="h-12"
+                width={48}
+                height={48}
                 src={`/solana.png`}
                 alt="Solana"
               />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <Image
-                className="h-12"
+                width={48}
+                height={48}
                 src={`/polkadot.svg`}
                 alt="Polkadot"
               />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <Image
-                className="h-12"
+                width={48}
+                height={48}
                 src={`/ton.png`}
                 alt="TON"
               />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <Image
-                className="h-12"
+                width={48}
+                height={48}
                 src={`/stacks.png`}
                 alt="Workcation"
               />
