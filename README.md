@@ -4,9 +4,9 @@
 
 ```console
 
-npm install && npm run build
+yarn
 
-npm run start
+npm run dev
 
 ```
 

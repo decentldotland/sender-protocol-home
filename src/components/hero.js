@@ -1,5 +1,3 @@
-import HeroImg from '../assets/sender-line-2.svg'
-
 const heroCopy = {
   title: "On-chain notifications for dApps",
   description: "Cross-chain, gasless, and easy to integrate"
@@ -39,7 +37,7 @@ function Hero() {
             </a>
             
           </div>
-          <img className='m-auto' alt="Sender Protocol hero" src={HeroImg} />
+          <img className='m-auto' alt="Sender Protocol hero" src={`/sender-line-2.svg`} />
         </div>
       
       </div>

@@ -1,10 +1,3 @@
-import ArweaveLogo from '../assets/chains/arweave.png'
-import SolanaLogo from '../assets/chains/solana.png'
-import EthereumLogo from '../assets/chains/ethereum.png'
-import TonLogo from '../assets/chains/ton.png'
-import Stacks from '../assets/chains/stacks.png'
-import PolkadotLogo from '../assets/chains/polkadot.svg'
-
 function Logos() {
   return (
     <div>
@@ -15,36 +8,36 @@ function Logos() {
           </h2>
           <div className="mt-8 grid grid-cols-6 gap-1 xs:grid-cols-6 md:grid-cols-10 lg:grid-cols-6">
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <img className="h-12" src={ArweaveLogo} alt="Arweave" />
+              <img className="h-12" src={`/arweave.png`} alt="Arweave" />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
-              <img className="h-12" src={EthereumLogo} alt="Ethereum" />
+              <img className="h-12" src={`/ethereum.png`} alt="Ethereum" />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <img
                 className="h-12"
-                src={SolanaLogo}
+                src={`/solana.png`}
                 alt="Solana"
               />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <img
                 className="h-12"
-                src={PolkadotLogo}
+                src={`/polkadot.svg`}
                 alt="Polkadot"
               />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <img
                 className="h-12"
-                src={TonLogo}
-                alt="Solana"
+                src={`/ton.png`}
+                alt="TON"
               />
             </div>
             <div className="col-span-1 flex justify-center md:col-span-2 lg:col-span-1">
               <img
                 className="h-12"
-                src={Stacks}
+                src={`/stacks.png`}
                 alt="Workcation"
               />
             </div>

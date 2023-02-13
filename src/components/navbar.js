@@ -1,5 +1,3 @@
-import Logo from '../assets/logo.png'
-
 /* This example requires Tailwind CSS v2.0+ */
 const navigation = [
   /*{ name: 'Blog', href: 'https://mirror.xyz/decentdotland.eth'},
@@ -16,7 +14,7 @@ export default function Navbar() {
             <a href="/">
               <img
                 className="h-10 mt-4 mb-4 mr-2 w-auto"
-                src={Logo}
+                src={`/logo.png`}
                 alt=""
               />
            

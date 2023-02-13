@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .base-transform {
+    @apply transition duration-150 ease-in-out transform;
+  }
+  .wallet-button-classes {
+    @apply flex items-center bg-white border-2 border-black disabled:border-gray-500 base-transform hover:shadow-xl disabled:hover:shadow-none rounded-lg my-auto cursor-pointer disabled:cursor-default disabled:text-gray-500;
+  }
+  .wallet-button {
+    @apply wallet-button-classes h-10 p-2;
+  }
+  .simple-button {
+    @apply underline disabled:no-underline disabled:text-gray-500 hover:decoration-gray-500 hover:text-gray-500 disabled:hover:decoration-black disabled:hover:text-gray-500;
+  }
+  .primary-button {
+    @apply bg-[#00FF75] hover:bg-[#00FF75]/80 text-2xl text-gray-800 py-2 px-10 rounded-lg text-center font-medium base-transform hover:scale-95 flex disabled:hover:scale-100 disabled:bg-[#10c965] disabled:hover:bg-[#10c965];
+  }
+  .stateful-button {
+    @apply wallet-button disabled:bg-gray-200 disabled:hover:shadow-none disabled:cursor-default;
+  }
+  .header-base {
+    @apply font-bold text-2xl md:text-4xl lg:text-5xl text-center;
+  }
+  .header-text {
+    @apply header-base xl:text-left;
+  }
+  .subheader-text {
+    @apply text-lg md:text-xl lg:text-2xl text-center;
+  }
+  .owned-by {
+    @apply bg-gray-200 rounded-3xl px-2 max-w-fit;
+  }
+  .spinner {
+    @apply text-gray-200 animate-spin dark:text-gray-600 fill-blue-600;
+  }
+  .primary-input {
+    @apply p-1 rounded-xl border-slate-300 border-2 outline-black;
+  }
+  .tooltip-button {
+    @apply text-sm text-gray-400 border-2 border-gray-400 rounded-full w-4 h-4 leading-[0] flex items-center justify-center cursor-pointer;
+  }
+}

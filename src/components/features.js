@@ -1,29 +1,29 @@
-import { LinkIcon, ChatAltIcon, BellIcon, UserIcon } from '@heroicons/react/outline'
+import { LinkIcon, ChatBubbleOvalLeftIcon, BellIcon, UserIcon } from '@heroicons/react/24/outline'
 
 const features = [
   {
     name: 'Flexible, out-of-the-box notifications',
     description:
       'Sender Protocol eliminates the need for dApps to build custom solutions for chat and notifications. Whatever the chain, just hook Sender into the right page or destination and set up the trigger conditions',
-    icon: BellIcon,
+    icon: <BellIcon className="h-8 w-8" aria-hidden="true" />,
   },
   {
     name: 'Encrypted on-chain messaging',
     description:
       'Use any one of a user\'s connected identities to encrypt and decrypt messages between dApps, protocols and chains.',
-    icon: ChatAltIcon,
+    icon: <ChatBubbleOvalLeftIcon className="h-8 w-8" aria-hidden="true" />,
   },
   {
     name: 'Send the right message to the right user',
     description:
       'Likes and mentions on your web3 social dapp, sales on your NFT marketplace, or announcements to the whole userbase -- Ark Protocol links identity across chains to reach users where they are.',
-    icon: UserIcon,
+    icon: <UserIcon className="h-8 w-8" aria-hidden="true" />,
   },
   {
     name: 'Gasless, on-chain and real-time',
     description:
       'Sending and receiving notifications with Sender Protocol is executed for free with EXM, a gasless Arweave-based smart contract platform with the ability to store unlimited data on-chain.',
-    icon: LinkIcon,
+    icon: <LinkIcon className="h-8 w-8" aria-hidden="true" />,
   }
 ]
 
@@ -41,7 +41,7 @@ export default function FeaturesNew() {
             {features.map((feature) => (
               <div key={feature.name} className="relative flex flex-col gap-6 sm:flex-row md:flex-col lg:flex-row">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#21275A] text-white sm:shrink-0">
-                  <feature.icon className="h-8 w-8" aria-hidden="true" />
+                  {feature.icon}
                 </div>
                 <div className="sm:min-w-0 sm:flex-1">
                   <p className="text-lg font-semibold leading-8 text-gray-900">{feature.name}</p>
