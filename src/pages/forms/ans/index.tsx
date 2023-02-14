@@ -148,18 +148,17 @@ export default function Home() {
     const sendRequest = async () => {
       setSubmitLoading(true);
       console.log(caller)
-      const result = await axios.post('/api/whitelist/apply', {arweave_address, signature, caller})
-      const newCaller = caller
+      const result = await axios.post('/api/whitelist/apply', {arweave_address, signature, caller});
+      const newCaller = caller;
       setTimeout(async () => {
+        console.log(newCaller)
         const state = await axios.post('/api/whitelist/exm-state', {});
         const isWL: Submission = state.data.list.find((item:any) => item.evm == newCaller);
-        console.log(state)
-        console.log(isWL);
-  
+        console.log('wl', isWL);
         if (!isWL) {
           setSubmitStatus({status: "error", message: "Request failed, please refresh page."});
         }
-        else if (isWL && Object.values(isWL?.results).find((val) => !val)) {
+        else if ((isWL !== undefined && isWL !== null) && Object.values(isWL?.results).find((val) => !val)) {
           setSubmitStatus({status: "error", message: `${newCaller} is not whitelisted!`});
         } else {
           setSubmitLoading(false)
