@@ -156,10 +156,7 @@ export default function Home() {
         const isWL: Submission = state.data.list.find((item:any) => item.evm == newCaller);
         console.log('wl', isWL);
         if (!isWL) {
-          setSubmitStatus({status: "error", message: "Request failed, please refresh page."});
-        }
-        else if ((isWL !== undefined && isWL !== null) && Object.values(isWL?.results).find((val) => !val)) {
-          setSubmitStatus({status: "error", message: `${newCaller} is not whitelisted!`});
+          setSubmitStatus({status: "error", message: "Request failed, you're not whitelisted."});
         } else {
           setSubmitLoading(false)
           setIsEligible(true);
