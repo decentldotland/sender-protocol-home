@@ -8,6 +8,7 @@ import Confetti from 'react-confetti'
 import { formatAddress } from '@/utils/arconnect'
 import Spinner from '@/components/Spinner'
 import { useAccountModal } from '@rainbow-me/rainbowkit'
+import { EXMWhitelistState, Results, Submission } from '@/types'
 
 interface Token {
   token_address: string;
@@ -43,7 +44,6 @@ const Tick = () => (
 
 
 export default function Home() {
-  const senderFormURL = "https://molecule-apis-wrapper.herokuapp.com/sender-form-collection/";
 
   const { address } = useAccount();
 
@@ -58,21 +58,32 @@ export default function Home() {
   });
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [isEligible, setIsEligible] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<any>({});
+
+  const [alreadySubmitted, setAlreadySubmitted] = useState(false);
 
   const [isEverpayWinner, setIsEverpayWinner] = useState<boolean>(false);
   const [isArkHolder, setIsArkHolder] = useState<boolean>(false);
   const [isEmilyHolder, setIsEmilyHolder] = useState<boolean>(false);
   const [isAurobotsHolder, setIsAurobotsHolder] = useState<boolean>(false);
   const [isArkProtocolUser, setIsArkProtocolUser] = useState<boolean>(false);
+  const [isMaskTokenHolder, setIsMaskTokenHolder] = useState<boolean>(false);
+  const [isRSS3TokenHolder, setIsRSS3TokenHolder] = useState<boolean>(false);
+  const [isSarcoTokenHolder, setIsSarcoTokenHolder] = useState<boolean>(false);
   
+  const [ResultsState, setResultsState] = useState<Results>();
+
   const flush = () => {
     setIsEverpayWinner(false);
     setIsArkHolder(false);
     setIsEmilyHolder(false);
     setIsAurobotsHolder(false);
     setIsArkProtocolUser(false);
+    setIsMaskTokenHolder(false);
+    setIsRSS3TokenHolder(false);
+    setIsSarcoTokenHolder(false);
   }
 
   useEffect(() => {
@@ -86,41 +97,22 @@ export default function Home() {
   }, [arweave_address])
 
   useEffect(() => {
-    const isOwner = (state: Token[]) => {
-      return state
-      .map((obj: Token) => obj.owner_of.toLowerCase())
-      .includes(caller.toLowerCase());
-    };
 
     const fetchData = async () => {
       flush();
-      const contractState = (await axios.post('/api/whitelist/exm-state', {}))?.data;
-      console.log(caller)
-      if (contractState === "Not found") return;
-      setSigMessage(contractState.verification_message);
-      const arkList = (await axios.get(senderFormURL + contractState.ark_nft_contract))?.data?.result;
-      const emilyList = (await axios.get(senderFormURL + contractState.emily_nft_contract))?.data?.result;
-      const isAuroraBotsHolder = (await axios.post('/api/whitelist/aurora', {aurobots_nft_contract: contractState.aurobots_nft_contract, address: caller}))?.data;
-      const everpayWinner = contractState.everfinance_nft_auctions.includes(caller);
-      const arkProtocolUser = (await axios.get("https://ark-core.decent.land/v2/address/resolve/" + caller))?.data?.arweave_address;
-      if (everpayWinner) setIsEverpayWinner(true);
-      if (isOwner(arkList)) setIsArkHolder(true);
-      if (isOwner(emilyList)) setIsEmilyHolder(true);
-      if (isAuroraBotsHolder?.message === "OK" && !!Number(isAuroraBotsHolder?.result)) setIsAurobotsHolder(true);
-      if (arkProtocolUser) setIsArkProtocolUser(true);
+      try {
+        const contractState: EXMWhitelistState = (await axios.post('/api/whitelist/exm-state', {})).data;
+        setSigMessage(contractState.verification_message + contractState.counter);
+        if (contractState.list.find((submission: Submission) => submission.evm === caller)) submitStatus({status: "error", message: `${caller} is already whitelisted!`});
+      } catch {};
       setLoading(false);
     };
     setLoading(true);
     if (caller.length > 0) fetchData();
+    setIsEligible(false);
+    setSubmitStatus({});
+    setArweave_address('');
   }, [caller]);
-
-  const atLeastOne = (
-    isEverpayWinner ||
-    isArkHolder ||
-    isEmilyHolder ||
-    isAurobotsHolder ||
-    isArkProtocolUser
-  );
 
   const [windowSize, setWindowSize] = useState({
     width: 0,
@@ -148,18 +140,34 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!(arweave_address && signature && caller)) return;
-    const sendRequest = async () => {
-      const result = await axios.post('/api/whitelist/apply', {arweave_address, signature, caller})
-      if (result.status !== 200) {
-        setSubmitStatus({status: "error", message: "Request failed: check internet connection"})
-        return
-      } else {
-        console.log(result.data);
-        setSubmitStatus({status: "success", message: "Successfully whitelisted!"});
-      }
+    if (!(arweave_address && signature && caller)) {
+      setSubmitStatus({status: "error", message: "No address!"});
+      return;
     };
-    sendRequest()
+    console.log(signature)
+    const sendRequest = async () => {
+      setSubmitLoading(true);
+      const result = await axios.post('/api/whitelist/apply', {arweave_address, signature, caller})
+      setTimeout(async () => {
+        const state = await axios.post('/api/whitelist/exm-state', {});
+        const isWL: Submission = state.data.list.find((item:any) => item.evm == caller);
+        console.log(isWL);
+  
+        if (!isWL) {
+          setSubmitStatus({status: "error", message: "Request failed, please refresh page."});
+        }
+        else if (Object.keys(isWL?.results).find((val) => !val)) {
+          setSubmitStatus({status: "error", message: `${caller} is not whitelisted!`});
+        } else {
+          setSubmitLoading(false)
+          setIsEligible(true);
+          setResultsState(isWL.results);
+          setSubmitStatus({status: "success", message: "Successfully whitelisted!"});
+        };
+        setSubmitLoading(false);
+      }, 5000)
+    };
+    sendRequest();
   }, [signature]);
 
   return (
@@ -174,10 +182,10 @@ export default function Home() {
         <div className="w-full h-[40vw] flex items-center justify-center">
           {caller ? (
             <div className="text-center">
-              {isEligible ? (
+              {(!isEligible && caller) ? (
                 <div className="min-w-[350px]">
-                  <div className="header-base mb-8">Congratulations!</div>
-                  <div className="subheader-text mb-8 tracking-wide font-light">{"You're eligible for the ANS whitelist"}</div>
+                  <div className="header-base mb-4">Okay, {formatAddress(caller, 7) }</div>
+                  <div className="subheader-text mb-8 tracking-wide font-light">{"Let's check if you're eligible."}</div>
                   <div className="flex items-center">
                     <input 
                       placeholder={"Paste your Arweave address"}
@@ -187,47 +195,41 @@ export default function Home() {
                     />
                     <button 
                       onClick={() => signMessage()}
-                      disabled={arweaveValidation.length > 0 || submitStatus?.status === "success"}
-                      className={`px-12 py-2 border-green-500 border-2 rounded-xl ${submitStatus?.status === "success" ? "bg-green-500 text-white": "text-green-500"}`}
+                      disabled={arweave_address.length !== 43 || arweaveValidation.length > 0 || submitStatus?.status === "success"}
+                      className={`flex items-center gap-x-2 px-12 py-2 border-green-500 border-2 rounded-xl text-green-500 disabled:text-gray-500 disabled:border-gray-500`}
                     >
-                      {submitStatus?.status === "success" ? "Confirmed!" : "Confirm"}
+                      {"Whitelist"}
+                      {submitLoading && <Spinner className='w-4 h-4 spinner' />}
                     </button>
                   </div>
                   <div className="mt-2">
-                    {submitStatus?.status !== "success" && arweaveValidation?.length > 0 && <div className="text-red-400">{arweaveValidation}</div>}
+                    {arweaveValidation?.length > 0 && <div className="text-red-400">{arweaveValidation}</div>}
+                    {submitStatus?.status === "error" && <div className="text-red-400">{submitStatus.message}</div>}
                     {submitStatus?.status === "success" && <div className="text-green-400">{submitStatus?.message}</div>}
                   </div>
-                  <Confetti
-                    width={windowSize.width}
-                    height={windowSize.height}
-                    recycle={false}
-                    numberOfPieces={2000}
-                    style={{ zIndex: 50 }}
-                  />
                 </div>
               ) : (
                 <>
-                  <div className="header-base mb-4">Okay, {formatAddress(caller, 7) }</div>
-                  <div className="subheader-text mb-8 tracking-wide font-light">{"Let's check if you're eligible."}</div>
-                  {loading ? (
-                    <div className="w-full flex justify-center items-center">
-                      <Spinner className="w-20 h-20 spinner" />
-                    </div>
-                  ): (
-                    <div className="max-w-sm text-lg tracking-wide font-light">
-                      <div className="flex items-center w-full justify-between mb-2">{"Won everpay Auction"} {isEverpayWinner ? <Tick />: <Cross />}</div>
-                      <div className="flex items-center w-full justify-between mb-2">{"Owns an Ark NFT"} {isArkHolder ? <Tick />: <Cross />}</div>
-                      <div className="flex items-center w-full justify-between mb-2">{"Is Emily NFT holder"} {isEmilyHolder ? <Tick />: <Cross />}</div>
-                      <div className="flex items-center w-full justify-between mb-2">{"Is Aurobots NFT holder"} {isAurobotsHolder ? <Tick />: <Cross />}</div>
-                      <div className="flex items-center w-full justify-between mb-2">{"Connected via Ark Protocol"} {isArkProtocolUser ? <Tick />: <Cross />}</div>
-                      {atLeastOne ? (
-                        <button onClick={() => setIsEligible(true)} className="mt-6 px-12 py-2 border-green-500 border-2 rounded-xl text-green-500">Continue</button>
-                      ) : (
-                        <button onClick={openAccountModal} className="mt-6 px-12 py-2 border-blue-500 border-2 rounded-xl text-blue-500">Restart</button>
-                      )}
-                    </div>
-              
-                  )}
+                  <div className="header-base mb-8">Congratulations!</div>
+                  <div className="subheader-text mb-8 tracking-wide font-light">{"You're eligible for the ANS whitelist"}</div>
+                  <div className="max-w-sm text-lg tracking-wide font-light">
+                    <div className="flex items-center w-full justify-between mb-2">{"Won everpay Auction"} {ResultsState?.IS_EVERPAY_WINNER ? <Tick />: <Cross />}</div>
+                    <div className="flex items-center w-full justify-between mb-2">{"Owns an Ark NFT"} {ResultsState?.IS_ARK_NFT_HOLDER ? <Tick />: <Cross />}</div>
+                    <div className="flex items-center w-full justify-between mb-2">{"Is Emily NFT holder"} {ResultsState?.IS_EMILY_NFT_HOLDER ? <Tick />: <Cross />}</div>
+                    <div className="flex items-center w-full justify-between mb-2">{"Is Aurobots NFT holder"} {ResultsState?.IS_AURO_BOTS_HOLDER ? <Tick />: <Cross />}</div>
+                    <div className="flex items-center w-full justify-between mb-2">{"Connected via Ark Protocol"} {ResultsState?.IS_ARK_PROTOCOL_USER ? <Tick />: <Cross />}</div>
+                    <div className="flex items-center w-full justify-between mb-2">{"Is Mask token holder"} {ResultsState?.IS_MASK_TOKEN_HOLDER ? <Tick />: <Cross />}</div>
+                    <div className="flex items-center w-full justify-between mb-2">{"Is RSS3 token holder"} {ResultsState?.IS_RSS3_TOKEN_HOLDER ? <Tick />: <Cross />}</div>
+                    <div className="flex items-center w-full justify-between mb-2">{"Is $SARCO token holder"} {ResultsState?.IS_SARCO_TOKEN_HOLDER ? <Tick />: <Cross />}</div>
+                    <button onClick={openAccountModal} className="mt-6 px-12 py-2 border-blue-500 border-2 rounded-xl text-blue-500">Restart</button>
+                    <Confetti
+                      width={windowSize.width}
+                      height={windowSize.height}
+                      recycle={false}
+                      numberOfPieces={2000}
+                      style={{ zIndex: 50 }}
+                    />
+                  </div>              
                 </>
               )}
             </div>
