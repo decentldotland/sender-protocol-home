@@ -164,7 +164,7 @@ export default function Home() {
           setSubmitStatus({status: "success", message: "Successfully whitelisted!"});
         };
         setSubmitLoading(false);
-      }, 5000)
+      }, 8000)
     };
     sendRequest();
   }, [signature]);
@@ -177,8 +177,8 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/logo.png" />
       </Head>
-      <main>
-        <div className="w-full h-[40vw] flex items-center justify-center">
+      <main className="absolute m-0 top-1/2 left-1/2" style={{transform: "translate(-50%, -50%)"}}>
+        <div className="flex items-center justify-center">
           {caller ? (
             <div className="text-center">
               {(!isEligible && caller) ? (
@@ -210,7 +210,7 @@ export default function Home() {
               ) : (
                 <>
                   <div className="header-base mb-8">Congratulations!</div>
-                  <div className="subheader-text mb-8 tracking-wide font-light">{"You're eligible for the ANS whitelist"}</div>
+                  <div className="subheader-text mb-8 tracking-wide font-light">{"You're on the ANS whitelist!"}</div>
                   <div className="max-w-sm text-lg tracking-wide font-light">
                     <div className="flex items-center w-full justify-between mb-2">{"Won everpay Auction"} {ResultsState?.IS_EVERPAY_WINNER ? <Tick />: <Cross />}</div>
                     <div className="flex items-center w-full justify-between mb-2">{"Owns an Ark NFT"} {ResultsState?.IS_ARK_NFT_HOLDER ? <Tick />: <Cross />}</div>
