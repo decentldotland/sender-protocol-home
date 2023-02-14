@@ -159,7 +159,7 @@ export default function Home() {
         if (!isWL) {
           setSubmitStatus({status: "error", message: "Request failed, please refresh page."});
         }
-        else if (Object.values(isWL?.results).find((val) => !val)) {
+        else if (isWL && Object.values(isWL?.results).find((val) => !val)) {
           setSubmitStatus({status: "error", message: `${newCaller} is not whitelisted!`});
         } else {
           setSubmitLoading(false)
