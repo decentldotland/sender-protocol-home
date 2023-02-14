@@ -62,6 +62,7 @@ export default function Home() {
   const [isEligible, setIsEligible] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<any>({});
 
+  const [WLAddress, setWLAddress] = useState<string>('');
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
 
   const [isEverpayWinner, setIsEverpayWinner] = useState<boolean>(false);
@@ -161,6 +162,7 @@ export default function Home() {
           setSubmitLoading(false)
           setIsEligible(true);
           setResultsState(isWL.results);
+          setWLAddress(isWL.arweave);
           setSubmitStatus({status: "success", message: "Successfully whitelisted!"});
         };
         setSubmitLoading(false);
@@ -177,68 +179,73 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/logo.png" />
       </Head>
-      <main className="absolute m-0 top-1/2 left-1/2" style={{transform: "translate(-50%, -50%)"}}>
-        <div className="flex items-center justify-center">
-          {caller ? (
-            <div className="text-center">
-              {(!isEligible && caller) ? (
-                <div className="min-w-[350px]">
-                  <div className="header-base mb-4">Okay, {formatAddress(caller, 7) }</div>
-                  <div className="subheader-text mb-8 tracking-wide font-light">{"Let's check if you're eligible."}</div>
-                  <div className="flex items-center">
-                    <input 
-                      placeholder={"Paste your Arweave address"}
-                      className="px-2 py-2 border-black border-2 rounded-xl text-black mr-2 w-64"
-                      value={arweave_address}
-                      onChange={(e) => setArweave_address(e.target.value)}
-                    />
-                    <button 
-                      onClick={() => signMessage()}
-                      disabled={arweave_address.length !== 43 || arweaveValidation.length > 0 || submitStatus?.status === "success"}
-                      className={`flex items-center gap-x-2 px-12 py-2 border-green-500 border-2 rounded-xl text-green-500 disabled:text-gray-500 disabled:border-gray-500`}
-                    >
-                      {"Whitelist"}
-                      {submitLoading && <Spinner className='w-4 h-4 spinner' />}
-                    </button>
+      <main>
+        <div className="absolute m-0 top-1/2 left-1/2" style={{transform: "translate(-50%, -50%)"}}>
+          <div className="flex items-center justify-center">
+            {caller ? (
+              <div className="text-center">
+                {(!isEligible && caller) ? (
+                  <div className="min-w-[350px]">
+                    <div className="header-base mb-4">Okay, {formatAddress(caller, 7) }</div>
+                    <div className="subheader-text mb-8 tracking-wide font-light">{"Let's check if you're eligible."}</div>
+                    <div className="flex items-center">
+                      <input 
+                        placeholder={"Paste your Arweave address"}
+                        className="px-2 py-2 border-black border-2 rounded-xl text-black mr-2 w-64"
+                        value={arweave_address}
+                        onChange={(e) => setArweave_address(e.target.value)}
+                      />
+                      <button 
+                        onClick={() => signMessage()}
+                        disabled={arweave_address.length !== 43 || arweaveValidation.length > 0 || submitStatus?.status === "success"}
+                        className={`flex items-center gap-x-2 px-12 py-2 border-green-500 border-2 rounded-xl text-green-500 disabled:text-gray-500 disabled:border-gray-500`}
+                      >
+                        {"Whitelist"}
+                        {submitLoading && <Spinner className='w-4 h-4 spinner' />}
+                      </button>
+                    </div>
+                    <div className="mt-2">
+                      {arweaveValidation?.length > 0 && <div className="text-red-400">{arweaveValidation}</div>}
+                      {submitStatus?.status === "error" && <div className="text-red-400">{submitStatus.message}</div>}
+                      {submitStatus?.status === "success" && <div className="text-green-400">{submitStatus?.message}</div>}
+                    </div>
                   </div>
-                  <div className="mt-2">
-                    {arweaveValidation?.length > 0 && <div className="text-red-400">{arweaveValidation}</div>}
-                    {submitStatus?.status === "error" && <div className="text-red-400">{submitStatus.message}</div>}
-                    {submitStatus?.status === "success" && <div className="text-green-400">{submitStatus?.message}</div>}
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="header-base mb-8">Congratulations!</div>
-                  <div className="subheader-text mb-8 tracking-wide font-light">{"You're on the ANS whitelist!"}</div>
-                  <div className="max-w-sm text-lg tracking-wide font-light">
-                    <div className="flex items-center w-full justify-between mb-2">{"Won everpay Auction"} {ResultsState?.IS_EVERPAY_WINNER ? <Tick />: <Cross />}</div>
-                    <div className="flex items-center w-full justify-between mb-2">{"Owns an Ark NFT"} {ResultsState?.IS_ARK_NFT_HOLDER ? <Tick />: <Cross />}</div>
-                    <div className="flex items-center w-full justify-between mb-2">{"Is Emily NFT holder"} {ResultsState?.IS_EMILY_NFT_HOLDER ? <Tick />: <Cross />}</div>
-                    <div className="flex items-center w-full justify-between mb-2">{"Is Aurobots NFT holder"} {ResultsState?.IS_AURO_BOTS_HOLDER ? <Tick />: <Cross />}</div>
-                    <div className="flex items-center w-full justify-between mb-2">{"Connected via Ark Protocol"} {ResultsState?.IS_ARK_PROTOCOL_USER ? <Tick />: <Cross />}</div>
-                    <div className="flex items-center w-full justify-between mb-2">{"Is Mask token holder"} {ResultsState?.IS_MASK_TOKEN_HOLDER ? <Tick />: <Cross />}</div>
-                    <div className="flex items-center w-full justify-between mb-2">{"Is RSS3 token holder"} {ResultsState?.IS_RSS3_TOKEN_HOLDER ? <Tick />: <Cross />}</div>
-                    <div className="flex items-center w-full justify-between mb-2">{"Is $SARCO token holder"} {ResultsState?.IS_SARCO_TOKEN_HOLDER ? <Tick />: <Cross />}</div>
-                    <button onClick={openAccountModal} className="mt-6 px-12 py-2 border-blue-500 border-2 rounded-xl text-blue-500">Restart</button>
-                    <Confetti
-                      width={windowSize.width}
-                      height={windowSize.height}
-                      recycle={false}
-                      numberOfPieces={2000}
-                      style={{ zIndex: 50 }}
-                    />
-                  </div>              
-                </>
-              )}
-            </div>
-          ) : (
-            <div className="flex flex-col gap-y-4 items-center">
-              <div className="header-base mb-4">Whitelist for ANS</div>
-              <ConnectButton label='Connect Wallet' />
-            </div>
-          )}
+                ) : (
+                  <>
+                    <div className="header-base mb-8">Congratulations!</div>
+                    <div className="subheader-text mb-6 tracking-wide font-light">{"You're on the ANS whitelist!"}</div>
+                    <div className="text-gray-700 tracking-wide font-light mb-8">Arweave address: {formatAddress(WLAddress, 10)}</div>
+                    <div className="max-w-sm text-lg tracking-wide font-light">
+                      <div className="flex items-center w-full justify-between mb-2">{"Won everpay Auction"} {ResultsState?.IS_EVERPAY_WINNER ? <Tick />: <Cross />}</div>
+                      <div className="flex items-center w-full justify-between mb-2">{"Owns an Ark NFT"} {ResultsState?.IS_ARK_NFT_HOLDER ? <Tick />: <Cross />}</div>
+                      <div className="flex items-center w-full justify-between mb-2">{"Is Emily NFT holder"} {ResultsState?.IS_EMILY_NFT_HOLDER ? <Tick />: <Cross />}</div>
+                      <div className="flex items-center w-full justify-between mb-2">{"Is Aurobots NFT holder"} {ResultsState?.IS_AURO_BOTS_HOLDER ? <Tick />: <Cross />}</div>
+                      <div className="flex items-center w-full justify-between mb-2">{"Connected via Ark Protocol"} {ResultsState?.IS_ARK_PROTOCOL_USER ? <Tick />: <Cross />}</div>
+                      <div className="flex items-center w-full justify-between mb-2">{"Is Mask token holder"} {ResultsState?.IS_MASK_TOKEN_HOLDER ? <Tick />: <Cross />}</div>
+                      <div className="flex items-center w-full justify-between mb-2">{"Is RSS3 token holder"} {ResultsState?.IS_RSS3_TOKEN_HOLDER ? <Tick />: <Cross />}</div>
+                      <div className="flex items-center w-full justify-between mb-2">{"Is $SARCO token holder"} {ResultsState?.IS_SARCO_TOKEN_HOLDER ? <Tick />: <Cross />}</div>
+                      <button onClick={openAccountModal} className="mt-6 px-12 py-2 border-blue-500 border-2 rounded-xl text-blue-500">Restart</button>
+                    </div>              
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-y-4 items-center">
+                <div className="header-base mb-4">Whitelist for ANS</div>
+                <ConnectButton label='Connect Wallet' />
+              </div>
+            )}
+          </div>
         </div>
+        {(isEligible && caller) && (
+          <Confetti
+            width={windowSize.width}
+            height={windowSize.height}
+            recycle={false}
+            numberOfPieces={2000}
+            style={{ zIndex: 50 }}
+          />
+        )}
       </main>
       <footer>
         <div className="w-full">
